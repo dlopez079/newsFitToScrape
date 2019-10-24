@@ -1,0 +1,35 @@
+{
+  "name": "newsfittoscrape",
+  "version": "1.0.0",
+  "description": "scrape, express, express-handlebars, mongoose, cheerio, axios",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlopez079/newsFitToScrape.git"
+  },
+  "keywords": [
+    "scrape",
+    "express",
+    "express-handlebars",
+    "mongoose",
+    "cheerio",
+    "axios"
+  ],
+  "author": "David Lopez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dlopez079/newsFitToScrape/issues"
+  },
+  "homepage": "https://github.com/dlopez079/newsFitToScrape#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongoose": "^5.7.6",
+    "morgan": "^1.9.1"
+  }
+}
