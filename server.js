@@ -1,22 +1,21 @@
-var express = require("express");
-var logger = require("morgan");
-var mongoose = require("mongoose");
-
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
-var axios = require("axios");
-var cheerio = require("cheerio");
+const express = require("express"); //Framework
+const logger = require("morgan"); //Logger
+const mongoose = require("mongoose"); //Tool for database connectivity
+const exphbs  = require('express-handlebars'); //Tool for front end website develop
+const axios = require("axios");  // Our scraping tool: Axios is a promised-based http library, similar to jQuery's Ajax method. It works on the client and on the server
+const cheerio = require("cheerio"); //Our scraping tool: Targets websites and pulls data. 
 
 // Require all models
-var db = require("./models");
+const db = require("./models"); //Require Articles, Index and Notes models located in the Models folder. 
 
-var PORT = process.env.PORT || 3000;
+// Configure Port
+const PORT = process.env.PORT || 3000; //This is the port that will be used to navigate to our site. 
 
 // Initialize Express
 var app = express();
 
-// Configure middleware
+// ===============================================================================================================
+// CONFIGURE MIDDLEWARE
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -28,6 +27,9 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
+// Initialized Handlebars
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
@@ -38,9 +40,14 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 
 
 
-// Routes
+// ===================================================================================================================
 
-// ----------------------------------------------------
+// ROUTES
+
+// A GET route for the Index page.
+app.get('/', function (req, res) {
+  res.render('index'); //Searches for the home page in the views folder.
+});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
