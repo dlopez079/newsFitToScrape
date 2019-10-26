@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Make public a static folder
-app.use(express.static(",/public"));
+app.use(express.static("public"));
 
 // Initialized Handlebars
 app.engine('handlebars', exphbs());
@@ -48,8 +48,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 app.get('/', function (req, res) {
   res.render('index'); //Searches for the home page in the views folder.
 });
-
-
 
 
 
