@@ -22,10 +22,10 @@ app.use(logger("dev"));
 
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
+
 // Make public a static folder
-app.use(express.static("public"));
+app.use(express.static(",/public"));
 
 // Initialized Handlebars
 app.engine('handlebars', exphbs());
@@ -48,6 +48,10 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 app.get('/', function (req, res) {
   res.render('index'); //Searches for the home page in the views folder.
 });
+
+
+
+
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
@@ -100,12 +104,6 @@ app.get("/scrape", function (req, res) {
     res.send("Scrape Complete");
   });
 });
-// ----------------------------------------------------
-
-
-
-
-
 
 // Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
