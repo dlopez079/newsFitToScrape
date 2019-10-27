@@ -5,6 +5,7 @@ const exphbs  = require('express-handlebars'); //Tool for front end website deve
 const axios = require("axios");  // Our scraping tool: Axios is a promised-based http library, similar to jQuery's Ajax method. It works on the client and on the server
 const cheerio = require("cheerio"); //Our scraping tool: Targets websites and pulls data. 
 
+
 // Require all models
 const db = require("./models"); //Require Articles, Index and Notes models located in the Models folder. 
 
@@ -25,7 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Make public a static folder
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use("/public", express.static("public"));
 
 // Initialized Handlebars
 app.engine('handlebars', exphbs());
@@ -35,11 +37,6 @@ app.set('view engine', 'handlebars');
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-
-
-
-
 // ===================================================================================================================
 
 // ROUTES
@@ -48,7 +45,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 app.get('/', function (req, res) {
   res.render('index'); //Searches for the home page in the views folder.
 });
-
 
 
 // A GET route for scraping the echoJS website
@@ -70,14 +66,14 @@ app.get("/scrape", function (req, res) {
       var result = {};
 
 
-                                    // Add the text and href of every link, and save them as properties of the result object
-                                    result.title = $(this)
-                                      .find("a")
-                                      .text();
-                                    result.link = $(this)
-                                      .find("a")
-                                      .attr("href");
-                                    console.log("Result", result);
+        // Add the text and href of every link, and save them as properties of the result object
+        result.title = $(this)
+          .find("a")
+          .text();
+        result.link = $(this)
+          .find("a")
+          .attr("href");
+        console.log("Result", result);
 
 
 
