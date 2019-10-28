@@ -95,7 +95,8 @@ app.get("/scrape", function (req, res) {
     });
 
     // Send a message to the client
-    res.send("Scrape Complete");
+    console.log("Scrape Complete");
+    res.render('index'); //Searches for the home page in the views folder.
   });
 });
 
