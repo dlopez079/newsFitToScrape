@@ -1,4 +1,6 @@
-body { background-color: #F2F6D0 }
+body { 
+  background-color: rgb(132, 167, 233) 
+}
 #wrapper {
   width: 960px;
   margin-left: auto;
@@ -28,3 +30,4 @@ textarea {
   height: 200px;
   font-size: 18px;
 }
+
