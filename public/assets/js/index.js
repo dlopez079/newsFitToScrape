@@ -1,5 +1,5 @@
 // Grab the articles as a json
-$.getJSON("/articles", function(data) {
+$.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < 15; i++) {
     // Display the apropos information on the page
@@ -8,19 +8,19 @@ $.getJSON("/articles", function(data) {
       "<div class='container'>" +
       "<h4 data-id='" + data[i]._id + "'>" + data[i].title + "</h4>" +
       "<p><a href='" + data[i].link + "' target='_blank'>" + data[i].link + "</a></p>" +
-      "<button id='save'> Save Article </button>" +
+      "<button id='save-btn'> Save Article </button>" +
       // "<button id='delete'> Delete Article </button>" +
-      "</br>" + 
-      "</div>" + 
+      "</br>" +
+      "</div>" +
       "</div>");
   }
 });
 
-$(document).on("click", "#scrape-articles-btn", function() {
 
-})
+
+
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", "p", function () {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
@@ -32,7 +32,7 @@ $(document).on("click", "p", function() {
     url: "/articles/" + thisId
   })
     // With that done, add the note information to the page
-    .then(function(data) {
+    .then(function (data) {
       console.log(data);
       // The title of the article
       $("#notes").append("<h2>" + data.title + "</h2>");
@@ -54,7 +54,7 @@ $(document).on("click", "p", function() {
 });
 
 // When you click the savenote button
-$(document).on("click", "#savenote", function() {
+$(document).on("click", "#savenote", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
 
@@ -70,7 +70,7 @@ $(document).on("click", "#savenote", function() {
     }
   })
     // With that done
-    .then(function(data) {
+    .then(function (data) {
       // Log the response
       console.log(data);
       // Empty the notes section
@@ -85,7 +85,7 @@ $(document).on("click", "#savenote", function() {
 
 // ===========================================
 /* global bootbox */
-$(document).ready(function() {
+$(document).ready(function () {
   // Setting a reference to the article-container div where all the dynamic content will go
   // Adding event listeners to any dynamically generated "save article"
   // and "scrape new article" buttons
@@ -94,9 +94,25 @@ $(document).ready(function() {
   $(document).on("click", ".scrape-new", handleArticleScrape);
   $(".clear").on("click", handleArticleClear);
 
-  function initPage() {
+
+  const initPage = () => {
+    $.getJSON("/articles", (data) => {
+      for (let i = 0; i < 15; i++) {
+        articleContainer.empty();
+        // If we have headlines, render them to the page
+        if (data && data.length) {
+          renderArticles(data);
+        } else {
+          // Otherwise render a message explaining we have no articles
+          renderEmpty();
+        }
+      }
+    })
+  }
+
+  function initPage.old() {
     // Run an AJAX request for any unsaved headlines
-    $.get("/api/headlines?saved=false").then(function(data) {
+    $.get("/api/headlines?saved=false").then(function (data) {
       articleContainer.empty();
       // If we have headlines, render them to the page
       if (data && data.length) {
@@ -108,13 +124,13 @@ $(document).ready(function() {
     });
   }
 
-  function renderArticles(articles) {
+  const renderArticles = (articles) => {
     // This function handles appending HTML containing our article data to the page
     // We are passed an array of JSON containing all available articles in our database
     var articleCards = [];
     // We pass each article JSON object to the createCard function which returns a bootstrap
     // card with our article data inside
-    for (var i = 0; i < articles.length; i++) {
+    for (var i = 0; i < 15; i++) {
       articleCards.push(createCard(articles[i]));
     }
     // Once we have all of the HTML for the articles stored in our articleCards array,
@@ -188,7 +204,7 @@ $(document).ready(function() {
       method: "PUT",
       url: "/api/headlines/" + articleToSave._id,
       data: articleToSave
-    }).then(function(data) {
+    }).then(function (data) {
       // If the data was saved successfully
       if (data.saved) {
         // Run the initPage function again. This will reload the entire list of articles
@@ -199,7 +215,7 @@ $(document).ready(function() {
 
   function handleArticleScrape() {
     // This function handles the user clicking any "scrape new article" buttons
-    $.get("/api/fetch").then(function(data) {
+    $.get("/api/fetch").then(function (data) {
       // If we are able to successfully scrape the NYTIMES and compare the articles to those
       // already in our collection, re render the articles on the page
       // and let the user know how many unique articles we were able to save
@@ -210,7 +226,7 @@ $(document).ready(function() {
 
   //clears the 
   function handleArticleClear() {
-    $.get("api/clear").then(function() {
+    $.get("api/clear").then(function () {
       articleContainer.empty();
       initPage();
     });
