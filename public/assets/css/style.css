@@ -1,5 +1,5 @@
 body { 
-  background-image: url("/newsScrape/public/assets/img/bg-mets.jpg"); /* The image used */
+  background-color: coral; /* The image used */
 }
 #wrapper {
   width: 1020px;

@@ -1,7 +1,7 @@
 const express = require("express"); //Framework
 const logger = require("morgan"); //Logger
 const mongoose = require("mongoose"); //Tool for database connectivity
-const exphbs  = require('express-handlebars'); //Tool for front end website develop
+const exphbs = require('express-handlebars'); //Tool for front end website develop
 const axios = require("axios");  // Our scraping tool: Axios is a promised-based http library, similar to jQuery's Ajax method. It works on the client and on the server
 const cheerio = require("cheerio"); //Our scraping tool: Targets websites and pulls data. 
 
@@ -46,6 +46,9 @@ app.get('/', function (req, res) {
   res.render('index'); //Searches for the home page in the views folder.
 });
 
+app.get('/clear', function (req, res) {
+  res.render('clear');
+});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
@@ -66,14 +69,14 @@ app.get("/scrape", function (req, res) {
       var result = {};
 
 
-        // Add the text and href of every link, and save them as properties of the result object
-        result.title = $(this)
-          .find("a")
-          .text();
-        result.link = $(this)
-          .find("a")
-          .attr("href");
-        console.log("Result", result);
+      // Add the text and href of every link, and save them as properties of the result object
+      result.title = $(this)
+        .find("a")
+        .text();
+      result.link = $(this)
+        .find("a")
+        .attr("href");
+      console.log("Result", result);
 
 
 
@@ -118,8 +121,6 @@ app.get("/articles", function (req, res) {
 app.get("/articles/:id", function (req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
-    // ..and populate all of the notes associated with it
-    .populate("note")
     .then(function (dbArticle) {
       // If we were able to successfully find an Article with the given id, send it back to the client
       res.json(dbArticle);
