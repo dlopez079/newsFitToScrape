@@ -154,5 +154,5 @@ app.post("/articles/:id", function (req, res) {
 // Start the server
 app.listen(PORT, function () {
   console.log("App running on port " + PORT + "!");
-  console.log("Click on follow URL: http://localhost:" + PORT)
+  console.log("Click on this URL: http://localhost:" + PORT)
 });
